@@ -16,7 +16,7 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
-
+    //Put this auto onto a sendable chooser for testing purposees
 public class exampleAuto extends SequentialCommandGroup {
     public exampleAuto(Swerve s_Swerve){
         TrajectoryConfig config =
@@ -53,9 +53,9 @@ public class exampleAuto extends SequentialCommandGroup {
                 s_Swerve);
 
 
-        addCommands( //This DOESNT schedule the command, it registers the command as "ready"
-                     //so when its actually ready it can be run.
-            new InstantCommand(() -> s_Swerve.setPose(exampleTrajectory.getInitialPose())),
+        addCommands( //This creates a group that when the class is passed to the scheduler all of the command in this are 
+                     //scheduled
+            new InstantCommand(() -> s_Swerve.setPose(exampleTrajectory.getInitialPose())), //When implemented in a proper auto should this be reset as well
             swerveControllerCommand
         );
     }

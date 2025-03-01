@@ -146,7 +146,7 @@ public class Swerve extends SubsystemBase {
     public Consumer<ChassisSpeeds> autoDrive = (ChassisSpeeds autoBuilderChassisSpeeds) -> { 
         int otherFella = 1;
         otherFella++;
-        SmartDashboard.putNumber("AutoDrive?" , otherFella);
+        //SmartDashboard.putNumber("AutoDrive?" , otherFella);
         SwerveModuleState[] swerveModuleStates = 
                 Constants.Swerve.swerveKinematics.toSwerveModuleStates(autoBuilderChassisSpeeds);
                 SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.Swerve.maxSpeed);
@@ -160,7 +160,7 @@ public class Swerve extends SubsystemBase {
     public Supplier<ChassisSpeeds> robotRelativeChassisSpeeds = () -> {
         int otherFella = 1;
         otherFella++;
-        SmartDashboard.putNumber("ChassisSpeedsGetter??" , otherFella);
+        //SmartDashboard.putNumber("ChassisSpeedsGetter??" , otherFella);
         ChassisSpeeds fieldRelativeSpChassisSpeeds = Constants.Swerve.swerveKinematics.toChassisSpeeds(getModuleStates());
         return ChassisSpeeds.fromFieldRelativeSpeeds(fieldRelativeSpChassisSpeeds,
                                                     getHeading());
@@ -176,6 +176,6 @@ public class Swerve extends SubsystemBase {
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Angle", mod.getPosition().angle.getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);    
         }
-        //if need be I can upload the gyro yaw here
+        //If need be I can upload the gyro yaw here
     }
 }
