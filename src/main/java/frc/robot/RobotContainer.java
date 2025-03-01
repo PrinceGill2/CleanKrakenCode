@@ -1,5 +1,7 @@
 package frc.robot;
 
+import com.ctre.phoenix6.CANBus;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -18,8 +20,11 @@ import frc.robot.subsystems.*;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+    
+
     /* Controllers */
     private final Joystick driver = new Joystick(0);
+    private final Joystick operator = new Joystick(1);
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -27,22 +32,26 @@ public class RobotContainer {
     private final int rotationAxis = XboxController.Axis.kRightX.value;
 
     /* Driver Buttons */
-    private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
-    private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
+    private final JoystickButton zeroGyro = new JoystickButton(operator, XboxController.Button.kY.value);
+    private final JoystickButton robotCentric = new JoystickButton(operator, XboxController.Button.kLeftBumper.value);
+    //private final JoystickButton rollersForward = new JoystickButton(driver, XboxController.Button);
+    private final JoystickButton rightBumper = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
+    private final JoystickButton leftBumper = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
+    private final JoystickButton aButton = new JoystickButton(driver, XboxController.Button.kA.value);
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
-
+    private final Arm arm = new Arm();
+   
     //
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     //Programmer note: some of the shit I wrote for this could be wrong, dont fault me. Most of its right though that is confirmed.
-                    // I try to update what 
-                     //I remember to *shoulder shrug*
+                    // I try to update what I remember to *shoulder shrug*
     public RobotContainer() {
         s_Swerve.setDefaultCommand( //extends subSystem class, commandScheduler in the init runs this default command by the executer (look in commands section)
             new TeleopSwerve( //teleopSwerve object
                 s_Swerve, 
-                () -> -driver.getRawAxis(translationAxis), //this part works, wheels spin forwards and backwards 
+                () -> -driver.getRawAxis(translationAxis), //this part works, wheels spin forwards and backwards
                 () -> -driver.getRawAxis(strafeAxis), //the wheels will turn 90 degrees to strafe
                 () -> -driver.getRawAxis(rotationAxis), //the wheels will turn either 45 degrees or if strafe/translation is active a combined vector
                 () -> robotCentric.getAsBoolean() //this is set by the driver, do they want forward dependent on the robot heading or the 
@@ -63,6 +72,8 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+        aButton.onTrue(new levelOneArm(arm));
+
     }
 
     /**
@@ -74,7 +85,8 @@ public class RobotContainer {
         // An ExampleCommand will run in autonomous
         return new exampleAuto(s_Swerve);
     }
-
+    
+    //Make sure that the robotcontainer has been initialized before using this
     public Swerve getSwerveObject() { 
         return s_Swerve;
     }

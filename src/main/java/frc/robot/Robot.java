@@ -35,9 +35,15 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
 
     //this will be the object used to generate all of the autonomous paths 
-    autoObject = new Auto(m_robotContainer.getSwerveObject());
+    autoObject = new Auto(m_robotContainer.getSwerveObject(), m_robotContainer);
 
     //Creates a sendable chooser with all of the paths/loads all of the autos to be used pre emptively
+    //This will contain both the pathplanner autos and autos that I've made with combinations between the two
+    //AUTO SENDABLE CHOOSERS VVVVVVVVVVVVVVVVV */
+
+    //NOT YET MADE BUT WILL BE
+
+    //AUTOS HERE ^^^^^^^^^^^^^^^^^ */
   }
 
   /**
@@ -63,16 +69,18 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-    SmartDashboard.putNumber("AUTO-ON " , 0);
+   
   }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
     m_autonomousCommand = autoObject.getAutonomousCommand();
+
+    
     //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-    // schedule the autonomous command (example)
+    // schedule the autonomous command 
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
@@ -81,7 +89,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    SmartDashboard.putNumber("AUTO-ON " , 1);
+    
   }
 
   @Override

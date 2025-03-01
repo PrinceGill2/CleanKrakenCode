@@ -1,5 +1,6 @@
 package frc.robot;
 
+import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -22,6 +23,8 @@ public class SwerveModule {
     private TalonFX mDriveMotor;
     private CANcoder angleEncoder; //this should be set to the CTRE mag encoders
 
+    CANBus canbus; //This creates a canivore object so the code knows where the motor controllers are
+
     //this sends out a bit more oomph for any predicted disturbances that could happen.
     private final SimpleMotorFeedforward driveFeedForward = new SimpleMotorFeedforward(Constants.Swerve.driveKS, Constants.Swerve.driveKV, Constants.Swerve.driveKA);
 
@@ -36,6 +39,9 @@ public class SwerveModule {
     public SwerveModule(int moduleNumber, SwerveModuleConstants moduleConstants){
         this.moduleNumber = moduleNumber;
         this.angleOffset = moduleConstants.angleOffset;
+        //Should create a canbus object to pass onto the TalonFx objects in the SwerveModule 
+        //have to figure out the name of the canivore
+        CANBus canbus = new CANBus("PLACE HOLDER");
         
         /* Angle Encoder Config */
         angleEncoder = new CANcoder(moduleConstants.cancoderID);

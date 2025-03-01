@@ -9,6 +9,9 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
+//I'll have to see if this defualt command has to be canceled 
+//When autos in teleop are ran. Since the s_Swerve subsystem will have to be
+//used 
 
 //this just passes the swerve values with the deadband applied ott he swerve object
 public class TeleopSwerve extends Command {    

@@ -40,6 +40,12 @@ public class LimelightHelpers {
 
     private static final Map<String, DoubleArrayEntry> doubleArrayEntries = new ConcurrentHashMap<>();
 
+    private static LimelightHelpers totalHelperClass = new LimelightHelpers();
+    
+    public static LimelightHelpers getTotalGlobalLimelightHelper() { 
+        return totalHelperClass; 
+    }
+
     /**
      * Represents a Color/Retroreflective Target Result extracted from JSON Output
      */
@@ -134,6 +140,13 @@ public class LimelightHelpers {
             targetPose_RobotSpace = new double[6];
         }
 
+    }
+    
+    //This works for just april tags
+    private static LimelightHelpers.LimelightTarget_Fiducial helperClass = new LimelightHelpers.LimelightTarget_Fiducial();
+
+    public static LimelightHelpers.LimelightTarget_Fiducial getGlobalLimelightHelper() { 
+        return helperClass; 
     }
 
     /**
@@ -365,6 +378,8 @@ public class LimelightHelpers {
         public LimelightTarget_Detector() {
         }
     }
+
+
 
     /**
      * Limelight Results object, parsed from a Limelight's JSON results output.
