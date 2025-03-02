@@ -36,7 +36,7 @@ public final class CTREConfigs {
 
         /** Swerve Drive Motor Configuration */
         /* Motor Inverts and Neutral Mode */
-        swerveDriveFXConfig.MotorOutput.Inverted = Constants.Swerve.driveMotorInvert;// the drive motors work just fine 
+        swerveDriveFXConfig.MotorOutput.Inverted = Constants.Swerve.driveMotorInvert;
         swerveDriveFXConfig.MotorOutput.NeutralMode = Constants.Swerve.driveNeutralMode;
 
         /* Gear Ratio Config */ //the gear ratio is fine (150/7)/6 im pretty sure
