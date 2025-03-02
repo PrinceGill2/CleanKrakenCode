@@ -35,7 +35,7 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
 
     //this will be the object used to generate all of the autonomous paths 
-    autoObject = new Auto(m_robotContainer.getSwerveObject(), m_robotContainer);
+    //autoObject = new Auto(m_robotContainer.getSwerveObject(), m_robotContainer);
 
     //Creates a sendable chooser with all of the paths/loads all of the autos to be used pre emptively
     //This will contain both the pathplanner autos and autos that I've made with combinations between the two
@@ -75,7 +75,7 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = autoObject.getAutonomousCommand();
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     
     //m_autonomousCommand = m_robotContainer.getAutonomousCommand();

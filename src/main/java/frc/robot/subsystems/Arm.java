@@ -208,8 +208,10 @@ public class Arm extends SubsystemBase{
 
     }
 
-    public boolean withinBounds() {
-
+    public boolean armWithinBounds() {
+        if (Math.abs(ArmConstants.maxiRotatArm - armHingeEncoderL.getPosition()) <= .10) {
+            
+        }
 
         return false;
     }

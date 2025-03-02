@@ -29,7 +29,8 @@ public class RobotContainer {
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
     private final int strafeAxis = XboxController.Axis.kLeftX.value;
-    private final int rotationAxis = XboxController.Axis.kRightX.value;
+    private final int rotationAxisX = XboxController.Axis.kRightX.value;
+    private final int rotationAxisY = XboxController.Axis.kRightY.value;
 
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(operator, XboxController.Button.kY.value);
@@ -53,7 +54,8 @@ public class RobotContainer {
                 s_Swerve, 
                 () -> -driver.getRawAxis(translationAxis), //this part works, wheels spin forwards and backwards
                 () -> -driver.getRawAxis(strafeAxis), //the wheels will turn 90 degrees to strafe
-                () -> -driver.getRawAxis(rotationAxis), //the wheels will turn either 45 degrees or if strafe/translation is active a combined vector
+                () -> -driver.getRawAxis(rotationAxisX), //the wheels will turn either 45 degrees or if strafe/translation is active a combined vector
+                () -> -driver.getRawAxis(rotationAxisY), //Using two 
                 () -> robotCentric.getAsBoolean() //this is set by the driver, do they want forward dependent on the robot heading or the 
                                                  //pre set forward direction like postive x or something
             )
@@ -72,7 +74,7 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
-        aButton.onTrue(new levelOneArm(arm));
+        //aButton.onTrue(new levelOneArm(arm));
 
     }
 

@@ -11,6 +11,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib.math.Conversions;
 import frc.lib.util.SwerveModuleConstants;
@@ -39,9 +40,7 @@ public class SwerveModule {
     public SwerveModule(int moduleNumber, SwerveModuleConstants moduleConstants){
         this.moduleNumber = moduleNumber;
         this.angleOffset = moduleConstants.angleOffset;
-        //Should create a canbus object to pass onto the TalonFx objects in the SwerveModule 
-        //have to figure out the name of the canivore
-        CANBus canbus = new CANBus("PLACE HOLDER");
+        //CanBus is set in the motorController constructors
         
         /* Angle Encoder Config */
         angleEncoder = new CANcoder(moduleConstants.cancoderID);
@@ -51,6 +50,7 @@ public class SwerveModule {
         /* Angle Motor Config */
         mAngleMotor = new TalonFX(moduleConstants.angleMotorID);
         mAngleMotor.getConfigurator().apply(Robot.ctreConfigs.swerveAngleFXConfig); //The threshold and the threshold time no longer exist
+        Timer.delay(.05); //This might help with wheels not aligning after setting offsets
         resetToAbsolute(); //resets the angle encoders
 
         /* Drive Motor Config */
@@ -66,8 +66,7 @@ public class SwerveModule {
     //Open loop basically means that the motor that sets the speed of the wheel/bot 
     //operates without the known position of the wheel
     public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop){
-        desiredState = SwerveModuleState.optimize(desiredState, getState().angle); //angle of the wheel is optimized, im guessig its just a new object\
-                                                                                   //with a seperate memory address
+        desiredState = SwerveModuleState.optimize(desiredState, getState().angle); //angle of the wheel is optimized
         mAngleMotor.setControl(anglePosition.withPosition(desiredState.angle.getRotations())); //this sets the angle, feed forward makes sure it has the voltage
                                                                                                //to move the right distance
         setSpeed(desiredState, isOpenLoop); //the drive motor has yet to set the speed of the motor
@@ -93,7 +92,7 @@ public class SwerveModule {
     }
 
     public void resetToAbsolute(){
-        double absolutePosition = getCANcoder().getRotations() - angleOffset.getRotations(); //magnetic encoders ARE absolute encoders so this is curious
+        double absolutePosition = getCANcoder().getRotations() - angleOffset.getRotations(); //This is what fixes the position of the wheels
         mAngleMotor.setPosition(absolutePosition); 
     }
 

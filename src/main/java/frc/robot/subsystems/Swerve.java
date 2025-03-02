@@ -33,8 +33,7 @@ public class Swerve extends SubsystemBase {
         gyro = new Pigeon2(Constants.Swerve.pigeonID);
         gyro.getConfigurator().apply(new Pigeon2Configuration());
         gyro.setYaw(0); //the pigeons values arent used for anything right now
-        int fella = 1;
-        int otherFella = 1;
+    
         
         //this object is used at the end of the drive method 
         mSwerveMods = new SwerveModule[] {
@@ -58,9 +57,9 @@ public class Swerve extends SubsystemBase {
                                     translation.getX(),   //Seems like what would serve as a change in X and Y              //this is a static function and it's unknown where these values are stored 
                                     translation.getY(),   //Are actually just speed values. dx/dt, dy/dt essentially
                                     rotation, //dtheta/dt, the change is radians per unit of time
-                                    getHeading()// fromFieldRelativeSpeeds create a chassisspeeds object that is robotrelaitve
+                                    getHeading()// field relative
                                 )
-                                : new ChassisSpeeds( //this creates a fieldrelative chassisspeeds object
+                                : new ChassisSpeeds( //not field relative
                                     translation.getX(), 
                                     translation.getY(), 
                                     rotation)
@@ -68,6 +67,12 @@ public class Swerve extends SubsystemBase {
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Constants.Swerve.maxSpeed); //normalizes wheel speeds, wheels arent spinning yet
                                                                                                     //this calculation is done before the value is pushed to
                                                                                                     //motors
+        //These modules are spinning in the opposite direction usually
+        //I'm reversing the direction of the speed they spin in the correct direction
+        //For some reason it is only on the right side
+        swerveModuleStates[1].speedMetersPerSecond *= -1;
+        swerveModuleStates[3].speedMetersPerSecond *= -1;
+
                                 //here is the object being used, mod temporarily represents each swerve module
         for(SwerveModule mod : mSwerveMods){ //a python style for loop that just iterates through 1 by 1
             mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop); //it passes a temporary object swerveModuleStates which are replaced upon the next input read
